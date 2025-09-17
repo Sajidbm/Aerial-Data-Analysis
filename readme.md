@@ -13,7 +13,7 @@ The most important file is `FilteringDroneData.ipynb` where I have done most of 
 - I have purposefully chosen a simplified state covariance matrix `self.P` and a process noise matrix
 `self.Q`. This may be effecting the estimates produced by the filter. 
 - Next, the dataset does not come with a magnetometer file. As a result, I estimate attitude solely based on gyroscope (and accelerometer) outputs. This causes error accumulation because magnetometer gives the UAV accurate heading information relative to the earth's magnetic field. Without magnetometer, there's no absolute reference for the yaw angle, and without an absolute reference on the yaw angle, attitude estimation suffers drift error. Details can be found here: https://www.anyleaf.org/blog/estimating-drone-attitude
-- I make a very simplified assumption about the error covariance propagation: `self.P += self.Q * dt`. Ideally, the error propagation is done using $$ P_{k|k-1} = F_k P_{k-1|k-1} F_k^T + Q_k $$ where $Q_k$ is the process covariance and $F$ is the state transition matrix. Details can be found here: https://engineeringmedia.com/controlblog/the-kalman-filter
+- I make a very simplified assumption about the error covariance propagation: `self.P += self.Q * dt`. Ideally, the error propagation is done using $$P_{k|k-1} = F_k P_{k-1|k-1} F_k^T + Q_k$$ where $Q_k$ is the process covariance and $F$ is the state transition matrix. Details can be found here: https://engineeringmedia.com/controlblog/the-kalman-filter
 
 The file `bias_and_covariances` computes the bias and measurement noise covariance matrices directly from the dataset. `FilterDroneData` and `visual_analysis` shows some simple analysis and cleaning on the data.  
 
