@@ -5,4 +5,4 @@ The purpose of the repo is to generate hybrid datasets that can be used to simul
 
 ## What is the current status of work?
 
-Given the limitations of working with Zurich Urban MAV Dataset, I have moved on to using [Canadian Longterm Outdoor UAV Longterm Dataset (CLOUD)](https://www.dynsyslab.org/cloud-dataset/). 
+Given the limitations of working with Zurich Urban MAV Dataset, I have moved on to using [Canadian Longterm Outdoor UAV Dataset (CLOUD)](https://www.dynsyslab.org/cloud-dataset/). 
