@@ -9,7 +9,7 @@ The goal is to see the effect on pose following the introduction of corrupted GP
 
 - Create a dataset from Kalman filter (w/o air drag) fusing (true) GPS, Accelerometer, Gyro, Barometer, Magnetometer (IMU) together: call it `planned_course`
 - Corrupt GPS Data to simulate spoofing in a dataset, call it `spoofed_gps`
-- Fuse `spoofed_gps` and IMU together using the same Kalman filter, call it: `spoofed_course'
+- Fuse `spoofed_gps` and IMU together using the same Kalman filter, call it: `spoofed_course`
 - Compare the (x,y) coordinates of `planned_course` and `spoofed_course`. 
 
 ## What is the current status of work?
