@@ -36,3 +36,9 @@ Given the limitations of working with Zurich Urban MAV Dataset, I have moved on 
 
 
 ![](stages_tug.jpeg)
+
+### Learning
+
+- I realized that accelerations had to be used as control input. This was crucial. We used the attitude measurements to transform the acceleration measurements from the IMU. In that sense, attitude was also a control input, even though we assumed that the attitude was in-built and as a result, we took no step to account of the non-linearity introduced by the transformation by the rotation matrix. We also did not take the precision of the attitude into account for the sake of simplicity. 
+- I avoided coming across non-linearity whenever possible. For the GPS measurement model, I assumed that GPS was reported in the ENU ground system. As a result, I did not have to use the Jacobian of the measurement function. 
+- Earlier in the analysis, I reported standard deviations in the covariance matrices (instead of variance). This lead to inaccurate route planning.
