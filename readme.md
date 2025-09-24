@@ -12,7 +12,7 @@ The goal is to see the effect on pose following the introduction of corrupted GP
 - Fuse `spoofed_gps` and IMU together using the same Kalman filter, call it: `false_course`
 - Compare the (x,y) coordinates of `true_course` and `false_course`. 
 
-## What is the current status of work?
+## CLOUD dataset summary and future directions
 
 Given the limitations of working with Zurich Urban MAV Dataset, I have moved on to using [Canadian Longterm Outdoor UAV Dataset (CLOUD)](https://www.dynsyslab.org/cloud-dataset/). 
 
