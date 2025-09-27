@@ -1,9 +1,30 @@
 # Aerial Data Analysis
 
-The purpose of the repo is to generate hybrid datasets that can be used to simulate GPS spoofing. We have already attempted to do this once in the `ZurichUrbanMAVData` folder with 'Zurich Urban MAV Dataset'. You can find elaborate description of my findings on `readmefirst` there. 
+The purpose of the repo is to generate high fidelity hybrid datasets that can be used to simulate GPS spoofing. 
 
 
-## Goal
+## Present Goal: Adversarial Class
+
+It is interesting to study the set of parameters of the GPS-receiver pipeline that an adversary can control. A full study of adversary capacity and a corresponding cost-benefit analysis is fundamental to developing strategies to monitor, detect, and counteract spoofing attacks. To that end, our current aim is to develop a general adversary class and integrate the adversary into our flight simulation. 
+
+
+### Simple Adversary
+
+We first assume (naively) that an adversary is fully capable of controlling the GPS receiver of the UAV. That is, the adversary can:
+
+- Assign GPS position estimates,
+- Alter GPS frequency,
+- Change GPS velocity estimates, and
+- Control GPS horizontal and vertical dilutions.
+
+To begin our experimentation, we also assume that the adversary has full knowledge of the flight path. Here are the characteristics of the class:
+
+- Given the flight path (an array of coordinates) and a target trajectory, our adversary will be able to output corrupt GPS positions, frequency, velocities, and horizontal+vertical dilutions that attains the target trajectory (post pose correction).
+    - To avoiding integrating autopilot pose correction algorithm, we will (naively) assume that corrected pose, up to a rotation and a scale factor, is equal to the false course fused by spoofed GPS and IMU. Meaning, it's be sufficient for the adversary class to back-calculate the outputs relative to the estimated false flight course (pre pose correction). For now, we'll just assume that pose correction is equal in magnitude and opposite in direction.
+
+
+
+## Before Sept 26/Friday
 
 The goal is to see the effect on pose following the introduction of corrupted GPS data. Advanced spoofing techniques like spoof and drift is meant to give the autopilot false impressions of drift. The autopilot then makes corrections to remain on course. This results in false correction and instills false beliefs: autopilot thinks it's on course, in reality the drone drifts off course. We have the following steps ahead of us: 
 
@@ -12,7 +33,7 @@ The goal is to see the effect on pose following the introduction of corrupted GP
 - Fuse `spoofed_gps` and IMU together using the same Kalman filter, call it: `false_course`
 - Compare the (x,y) coordinates of `true_course` and `false_course`. 
 
-## CLOUD dataset summary and future directions
+### CLOUD dataset summary and future directions
 
 Given the limitations of working with Zurich Urban MAV Dataset, I have moved on to using [Canadian Longterm Outdoor UAV Dataset (CLOUD)](https://www.dynsyslab.org/cloud-dataset/). 
 
