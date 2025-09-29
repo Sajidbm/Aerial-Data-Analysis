@@ -19,8 +19,8 @@ We first assume (naively) that an adversary is fully capable of controlling the 
 
 To begin our experimentation, we also assume that the adversary has full knowledge of the flight path. Here are the characteristics of the class:
 
-- Given the flight path (an array of coordinates) and a target trajectory, our adversary will be able to output corrupt GPS positions, frequency, velocities, and horizontal+vertical dilutions that attains the target trajectory (post pose correction).
-    - To avoiding integrating autopilot pose correction algorithm, we will (naively) assume that corrected pose, up to a rotation and a scale factor, is equal to the false course fused by spoofed GPS and IMU. Meaning, it's be sufficient for the adversary class to back-calculate the outputs relative to the estimated false flight course (pre pose correction). For now, we'll just assume that pose correction is equal in magnitude and opposite in direction.
+- Given the flight path (an array of coordinates) and a target trajectory, our adversary class will be able to output corrupt GPS positions, frequency, velocities, and horizontal+vertical dilutions that attains the target trajectory (post pose correction).
+    - To avoid integrating autopilot pose correction algorithm, we will (naively) assume that corrected pose, up to a rotation and a scale factor, is equal to the false course fused by spoofed GPS and IMU. Meaning, it's be sufficient for the adversary class to back-calculate the outputs relative only to the estimated false flight course (pre pose correction). For now, we'll just assume that pose correction is equal in magnitude and opposite in direction.
 
 
 
