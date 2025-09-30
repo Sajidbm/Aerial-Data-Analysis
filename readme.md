@@ -5,21 +5,21 @@ The purpose of the repo is to generate high fidelity hybrid datasets that can be
 
 ## Present Goal: Adversarial Class
 
-It is interesting to study the set of parameters of the GPS-receiver pipeline that an adversary can control. A full study of adversary capacity and a corresponding cost-benefit analysis is fundamental to developing strategies to monitor, detect, and counteract spoofing attacks. To that end, our current aim is to develop a general adversary class and integrate the adversary into our flight simulation. 
+It is interesting to study the set of parameters of the GPS-receiver pipeline that an adversary can control. A full study of adversary capacity and a corresponding cost-benefit analysis for counter strategies is fundamental to strengthening strategies to monitor, detect, and counteract spoofing attacks. To that end, our current aim is to develop a general adversary class and integrate the adversary into our flight simulation. 
 
 
 ### Simple Adversary
 
 We first assume (naively) that an adversary is fully capable of controlling the GPS receiver of the UAV. That is, the adversary can:
 
-- Assign GPS position estimates,
-- Alter GPS frequency,
+- Assign GPS position estimates to the UAV, replacing true GPS signals,
+- Alter true GPS frequency,
 - Change GPS velocity estimates, and
 - Control GPS horizontal and vertical dilutions.
 
 To begin our experimentation, we also assume that the adversary has full knowledge of the flight path. Here are the characteristics of the class:
 
-- Given the flight path (an array of coordinates) and a target trajectory, our adversary class will be able to output corrupt GPS positions, frequency, velocities, and horizontal+vertical dilutions that attains the target trajectory (post pose correction).
+- Given the flight path (a sequence of coordinates), a target trajectory, and a duration, our adversary class will be able to output corrupt GPS positions, frequency, velocities, and horizontal+vertical dilutions that attains the target trajectory (post pose correction).
     - To avoid integrating autopilot pose correction algorithm, we will (naively) assume that corrected pose, up to a rotation and a scale factor, is equal to the false course fused by spoofed GPS and IMU. Meaning, it's be sufficient for the adversary class to back-calculate the outputs relative only to the estimated false flight course (pre pose correction). For now, we'll just assume that pose correction is equal in magnitude and opposite in direction.
 
 
