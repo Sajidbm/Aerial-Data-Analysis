@@ -26,6 +26,6 @@ where $\bf v$ is the velocity vector, $L_1$ is the tunable lookahead distance, $
 - The roll angle required to accomplish the lateral movement is given by 
 $$\phi = \tan^{-1}(\frac{a_{lat}}{g})$$
 
-So it's clear that the goal of the adversary is to induce slow lateral translation by manipulating the position vector.
+
 
 ![](rotations.png)
