@@ -17,11 +17,12 @@ We first assume (naively) that an adversary is fully capable of controlling the 
 - Change GPS velocity estimates, and
 - Control GPS horizontal and vertical dilutions.
 
-To begin our experimentation, we also assume that the adversary has full knowledge of the flight path. Here are the characteristics of the class:
+To begin our experimentation, we also assume that the adversary has full knowledge of the true flight path. Here is a non-exhaustive list of characteristics of the class:
 
-- Given the flight path (a sequence of coordinates), a target trajectory, and a duration, our adversary class will be able to output corrupt GPS positions, frequency, velocities, and horizontal+vertical dilutions that attains the target trajectory (post pose correction) within the given time.
+- Given the flight path (a sequence of waypoints), a (malicious) target destination, and a duration, our adversary class will be able to output malicious trajectory, corrupt GPS trajectory, frequency, velocities, and horizontal + vertical dilutions that attain the malicious trajectory (post pose correction) within the given duration.
     - To avoid integrating autopilot pose correction algorithm, we will (naively) assume that corrected pose, up to a rotation and a scale factor, is equal to the false course fused by spoofed GPS and IMU. Meaning, it's be sufficient for the adversary class to back-calculate the outputs relative only to the estimated false flight course (pre pose correction). For now, we'll just assume that pose correction is equal in magnitude and opposite in direction.
-- It's clear that the goal of the adversary is to induce slow lateral translation by manipulating the position vector. But the adversary can only manipulate the position vector by manipulating the GPS update step on the extended Kalman filter. Naturally, this involves reasoning with uncertainty. Therefore, the adversary must maintain its own extended Kalman filter.
+- It's clear that the goal of the adversary is to induce slow lateral translation by manipulating the position vector. But the adversary can only manipulate the position vector by manipulating the GPS update step on the extended Kalman filter. Naturally, this involves reasoning with uncertainty. Therefore, a smart adversary must maintain its own extended Kalman filter.
+    - This leads to the most advanced implementation of a spoofer: one that improve the spoofing signals by observing and recording changes on the target UAV. 
 - On the predict step, the adversary uses a purely physical model of propagation to predict the next set of GPS position and velocity inputs on the UAV. 
     - In our simplistic case, this means feeding false velocity consistent with the UAV's,
     - 
