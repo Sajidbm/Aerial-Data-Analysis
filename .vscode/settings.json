@@ -1,8 +1,17 @@
 {
     "cSpell.words": [
+        "asarray",
+        "astype",
+        "dtype",
         "Kalman",
+        "keepdims",
+        "kron",
+        "satel",
+        "sats",
         "spoofer",
+        "traj",
         "unfused",
+        "unif",
         "unspoofed",
         "Viterbi"
     ]
