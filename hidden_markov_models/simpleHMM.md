@@ -1,10 +1,5 @@
 # Simple spoofing model and HMM-based inference framework
 
-Pinned: No
-Categories: Proof of concept
-Status: In progress
-
----
 
 First I describe an 1D spoofing model for an autonomous UAV:
 
@@ -18,18 +13,18 @@ First I describe an 1D spoofing model for an autonomous UAV:
 - Number of available/visible GPS satellites, $Q \in \{0,1,2,3,4\}$  is another observable variable that can indicate spoofing because DOS (denial of service) through GPS jamming is common in all spoofing scenarios.
     - Suppose, we have the following probability distribution
     
-    $$P(Q=i~|~ G_t = 1) = \begin{cases}
-     \frac{1}{5} &\text{when } i = 0,2\\
-    \frac{3}{5} &\text{when } i = 1\\
-    0 &\text{otherwise}
-    \end{cases}$$
+$$P(Q=i~|~ G_t = 1) = \begin{cases}
+    \frac{1}{5} &\text{when } i = 0,2\\
+\frac{3}{5} &\text{when } i = 1\\
+0 &\text{otherwise}
+\end{cases}$$
     
-    $$P(Q=i~|~ G_t = 0) = \begin{cases}
-     \frac{3}{5} &\text{when } i = 4\\
-    \frac{1}{5} &\text{when } i = 3\\
-    \frac{1}{5} &\text{when } i = 2\\
-    0 &\text{otherwise}
-    \end{cases}$$
+$$P(Q=i~|~ G_t = 0) = \begin{cases}
+    \frac{3}{5} &\text{when } i = 4\\
+\frac{1}{5} &\text{when } i = 3\\
+\frac{1}{5} &\text{when } i = 2\\
+0 &\text{otherwise}
+\end{cases}$$
     
     - Wind has no influence on the number of visible satellites. Meaning: $P(Q~|~G,W) = P(Q~|~G)$ and $P(Q~|~W) = P(Q)$
 - At the given time step $t$, $\text{GPS}_t = U_t + W_t + \Delta_t$  where $\Delta_t \in \{-2,-1,0,1,2\}$ is the spoofing bias.
@@ -50,9 +45,9 @@ First I describe an 1D spoofing model for an autonomous UAV:
     - Body velocity cannot exceed a threshold: $|U_t|< U_{max.}$
     - We frame this as an observable variable:
         
-        $$s_t = \begin{cases}0 &\text{if}~  |U_t|< U_{max.}\\
-        1 &\text{otherwise} 
-        \end{cases}$$
+$$s_t = \begin{cases}0 &\text{if}~  |U_t|< U_{max.}\\
+1 &\text{otherwise} 
+\end{cases}$$
         
 
 ## HMM assumptions:
@@ -78,66 +73,66 @@ $$P(r_t, s_t~|~ G, W) = P(r_t~|~ G, W)~P(s_t~|~ G, W)$$
 - Next, we define the probability mass function of each independent component:
     - $P(r_t~|~G,W) = P(W_t+\Delta_t~|~G, W)$
     
-    $$P(W_t+\Delta_t = 0~|~ G=i, ~W=j) = \begin{cases}
-    1 &\text{if } i,j = 0,0\\
-    0 &\text{if } i,j = 1,0\\
-    \frac{1}{4} &\text{if } i,j = 1,-1\\
-    \frac{1}{4} &\text{if } i,j = 1,1\\
-    \end{cases}$$
-    
-    $$P(W_t+\Delta_t = 1~|~ G=i, ~W=j) = \begin{cases}
-    1 &\text{if } i,j = 0,1\\
-    \frac{1}{4} &\text{if } i,j = 1,0\\
-    \frac{1}{4} &\text{if } i,j = 1,-1\\
-    \end{cases}$$
-    
-    $$P(W_t+\Delta_t = -1~|~ G=i, ~W=j) = \begin{cases}
-    1 &\text{if } i,j = 0,-1\\
-    \frac{1}{4} &\text{if } i,j = 1,0\\
-    0 &\text{if } i,j = 1,-1\\
-    \frac{1}{4} &\text{if } i,j = 1,1\\
-    0 &\text{otherwise}
-    \end{cases}$$
-    
-    $$P(W_t+\Delta_t = -2~|~ G=i, ~W=j) = \begin{cases}
-    \frac{1}{4} &\text{if } i,j = 1,0\\
-    \frac{1}{4} &\text{if } i,j = 1,-1\\
-    0 &\text{otherwise}
-    \end{cases}$$
-    
-    $$P(W_t+\Delta_t = 2~|~ G=i, ~W=j) = \begin{cases}
-    \frac{1}{4} &\text{if } i,j = 1,0\\
-    \frac{1}{4} &\text{if } i,j = 1,1\\
-    0 &\text{otherwise}
-    \end{cases}$$
-    
-    $$P(W_t+\Delta_t = -3~|~ G=i, ~W=j) = \begin{cases}
-    \frac{1}{4} &\text{if } i,j = 1,-1\\
-    0 &\text{otherwise}
-    \end{cases}$$
-    
-    $$P(W_t+\Delta_t = 3~|~ G=i, ~W=j) = \begin{cases}
-    \frac{1}{4} &\text{if } i,j = 1,1\\
-    0 &\text{otherwise}
-    \end{cases}$$
+$$P(W_t+\Delta_t = 0~|~ G=i, ~W=j) = \begin{cases}
+1 &\text{if } i,j = 0,0\\
+0 &\text{if } i,j = 1,0\\
+\frac{1}{4} &\text{if } i,j = 1,-1\\
+\frac{1}{4} &\text{if } i,j = 1,1\\
+\end{cases}$$
+
+$$P(W_t+\Delta_t = 1~|~ G=i, ~W=j) = \begin{cases}
+1 &\text{if } i,j = 0,1\\
+\frac{1}{4} &\text{if } i,j = 1,0\\
+\frac{1}{4} &\text{if } i,j = 1,-1\\
+\end{cases}$$
+
+$$P(W_t+\Delta_t = -1~|~ G=i, ~W=j) = \begin{cases}
+1 &\text{if } i,j = 0,-1\\
+\frac{1}{4} &\text{if } i,j = 1,0\\
+0 &\text{if } i,j = 1,-1\\
+\frac{1}{4} &\text{if } i,j = 1,1\\
+0 &\text{otherwise}
+\end{cases}$$
+
+$$P(W_t+\Delta_t = -2~|~ G=i, ~W=j) = \begin{cases}
+\frac{1}{4} &\text{if } i,j = 1,0\\
+\frac{1}{4} &\text{if } i,j = 1,-1\\
+0 &\text{otherwise}
+\end{cases}$$
+
+$$P(W_t+\Delta_t = 2~|~ G=i, ~W=j) = \begin{cases}
+\frac{1}{4} &\text{if } i,j = 1,0\\
+\frac{1}{4} &\text{if } i,j = 1,1\\
+0 &\text{otherwise}
+\end{cases}$$
+
+$$P(W_t+\Delta_t = -3~|~ G=i, ~W=j) = \begin{cases}
+\frac{1}{4} &\text{if } i,j = 1,-1\\
+0 &\text{otherwise}
+\end{cases}$$
+
+$$P(W_t+\Delta_t = 3~|~ G=i, ~W=j) = \begin{cases}
+\frac{1}{4} &\text{if } i,j = 1,1\\
+0 &\text{otherwise}
+\end{cases}$$
     
 - Next, $P(s_t~|~G,W)$ . Suppose that $U_{max} =2$. Note that $s_t =0$, when $|U_t| < U_{max}.$
     
-    $$P(s_t=0~|~G_t = i,~W_t=j) = \begin{cases}
-    0 &\text{if } i,j = 0,-1\\
-    1 &\text{if } i,j = 0,0\\
-    1 &\text{if } i,j = 0,1\\
-    \frac{1}{2} &\text{if } i,j = 1,-1\\
-    \frac{1}{2} &\text{if } i,j = 1,0\\
-    \frac{1}{2} &\text{if } i,j = 1,1\\
-    \end{cases}$$
+$$P(s_t=0~|~G_t = i,~W_t=j) = \begin{cases}
+0 &\text{if } i,j = 0,-1\\
+1 &\text{if } i,j = 0,0\\
+1 &\text{if } i,j = 0,1\\
+\frac{1}{2} &\text{if } i,j = 1,-1\\
+\frac{1}{2} &\text{if } i,j = 1,0\\
+\frac{1}{2} &\text{if } i,j = 1,1\\
+\end{cases}$$
     
-    $$P(s_t=1~|~G_t = i,~W_t=j) = \begin{cases}
-    \frac{1}{2} &\text{if } i,j = 1,-1\\
-    \frac{1}{2} &\text{if } i,j = 1,0\\
-    \frac{1}{2} &\text{if } i,j = 1,1\\
-    1 &\text{if } i,j = 0,-1\\
-    \end{cases}$$
+$$P(s_t=1~|~G_t = i,~W_t=j) = \begin{cases}
+\frac{1}{2} &\text{if } i,j = 1,-1\\
+\frac{1}{2} &\text{if } i,j = 1,0\\
+\frac{1}{2} &\text{if } i,j = 1,1\\
+1 &\text{if } i,j = 0,-1\\
+\end{cases}$$
     
 
 ## Discrete Transition models
