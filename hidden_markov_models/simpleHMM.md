@@ -26,7 +26,7 @@ $$P(Q=i~|~ G_t = 0) = \begin{cases}
 0 &\text{otherwise}
 \end{cases}$$
     
-    - Wind has no influence on the number of visible satellites. Meaning: $P(Q~|~G,W) = P(Q~|~G)$ and $P(Q~|~W) = P(Q)$
+- Wind has no influence on the number of visible satellites. Meaning: $P(Q~|~G,W) = P(Q~|~G)$ and $P(Q~|~W) = P(Q)$
 - At the given time step $t$, $\text{GPS}_t = U_t + W_t + \Delta_t$  where $\Delta_t \in \{-2,-1,0,1,2\}$ is the spoofing bias.
     - In absence of spoofing, $G_t = 0,$ the UAV maintains $\text{GPS}_t = 1~m/s$ by setting $U_t = 1 - W_t.$
     - In presence of spoofing, $G_t = 1,$ the UAV maintains $\text{GPS}_t = 1$ by setting $U_t = 1-W_t-\Delta_t.$
@@ -70,8 +70,7 @@ The observation model is given by $P(r_t, s_t~|~ G, W)$.  Now, we must first con
 
 $$P(r_t, s_t~|~ G, W) = P(r_t~|~ G, W)~P(s_t~|~ G, W)$$
 
-- Next, we define the probability mass function of each independent component:
-    - $P(r_t~|~G,W) = P(W_t+\Delta_t~|~G, W)$
+- Next, we define the probability mass function of each independent component: $P(r_t~|~G,W) = P(W_t+\Delta_t~|~G, W)$
     
 $$P(W_t+\Delta_t = 0~|~ G=i, ~W=j) = \begin{cases}
 1 &\text{if } i,j = 0,0\\
@@ -151,8 +150,19 @@ $$P(G_t = i~|~ G_{t-1} = j) = \begin{cases}
 
 - To get the state transition matrix, we can simply multiply the state transition matrices of the spoofing variable and the wind variable. We can fix the following ordering of our states:
     
-    $$\{0,1\} \times \{-1,0,1 \} = \{(0,-1), (0,0), (0,1), (1, -1), (1, 0), (1,1) \}$$
+$$\{0,1\} \times \{-1,0,1 \} = \{(0,-1), (0,0), (0,1), (1, -1), (1, 0), (1,1)\}$$
     
 - Prior distribution:
 
 $$P(G_0) ~\otimes~ P(W_0) =  [\frac{\beta}{\alpha+\beta}, \frac{\alpha}{\alpha+\beta}] ~\otimes~ [\frac{1}{3}, \frac{1}{3}, \frac{1}{3}]$$
+
+## Inference 
+
+- For now, we apply a simple filtering technique that will estimate $P(G_t~|~o_{0:t})$, where $o_{0:t}$ is the sequence of observations $(r_0, s_0, Q_0), \cdots, (r_t, s_t, Q_t)$. 
+- This is achieved by marginalizing wind variable $W_t$ from the latent state $S_t = (G_t, W_t)$. Recall that our latent variable has 6 joint states given by $\{(0,-1), (0,0), (0,1), (1, -1), (1, 0), (1,1)\}$
+- Define $$\alpha_t(i) = P(S_i ~|~o_{0:t}$$ over six joint states. 
+- For each of the possible six states, we can define emission probability given by $$b_t(i) = P(o_{t}~|~S_i)$$ 
+- This leads us to an iterative formula for $\alpha_t(j)$: $$\alpha_t(j) = \gamma \cdot b_t(j) \sum_{i=1}^{6} \alpha_{t-1}(i) T_{ij}$$ where $T_{ij}$ is the transition probability from state $i$ to state $j$ and $\gamma$ is the normalizing constant. 
+
+
+
