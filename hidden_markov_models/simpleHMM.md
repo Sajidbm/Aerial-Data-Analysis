@@ -165,4 +165,10 @@ $$P(G_0) ~\otimes~ P(W_0) =  [\frac{\beta}{\alpha+\beta}, \frac{\alpha}{\alpha+\
 - This leads us to an iterative formula for $\alpha_t(j)$: $$\alpha_t(j) = \gamma \cdot b_t(j) \sum_{i=1}^{6} \alpha_{t-1}(i) T_{ij}$$ where $T_{ij}$ is the transition probability from state $i$ to state $j$ and $\gamma$ is the normalizing constant. 
 
 
+## Future work
+
+- Moving from velocity to acceleration in 3D. 
+- Considering Gaussian mixture models.
+- Using EM or Variational Inference for learning.
+
 
