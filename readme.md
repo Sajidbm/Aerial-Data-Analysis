@@ -3,7 +3,30 @@
 The purpose of the repo is to generate high fidelity hybrid datasets that can be used to simulate GPS spoofing. 
 
 
-## Present Goal: Adversarial Class
+## Present Goal: ArduPilot SITL experiments
+
+I have conducted two parallel experimental tracks using ArduPilot SITL (Software-In-The-Loop) to investigate GPS spoofing detection and wind-induced UAV behavior in fixed-wing aircraft.
+
+### GPS Spoofing Experiments
+
+- Work in this section focused on establishing a proof-of-concept for gradual GPS drift attacks on stationary UAVs. I successfully overcame previous technical barriers by implementing a dual GPS setup: maintaining `GPS1` as the SITL's native GPS while configuring `GPS2` as a MAVLink-controlled GPS (both set to `TYPE = 14`), then switching the `primary GPS` to the controllable MAVLink source. This approach eliminated the pre-arm failure errors that plagued earlier attempts.
+
+- In my ground validation experiment, I demonstrated a slow drift attack where spoofed GPS coordinates drifted northward at $0.5$ m/s over $25$ seconds, achieving a total displacement of 12.5 meters. A critical discovery emerged: ArduPilot's Extended Kalman Filter (EKF) blindly trusts the MAVLink GPS upon switching. When the system toggled between GPS sources (due to your 1 Hz transmission frequency falling below ArduPilot's $400$ ms timeout threshold), the EKF's `ResetPositionNE` function forced the position estimate to match the measurement exactly, zeroing out the innovation term that would normally trigger spoofing alarms. This revealed a **significant vulnerability**—even when the GPS jumped between 0m and 12.5m offsets, no alarm was raised because the innovation gate check ($P_{EKF} - P_{GPS} > 5\sigma$) was bypassed during switchovers.
+
+- My spoofing strategy employed static anchor points synchronized to the original GPS position, with drift calculated as a monotonically increasing function of elapsed time. I also identified the need to increase transmission frequency to 5 Hz in future iterations to maintain continuous GPS lock.
+
+### Wind Interaction Experiments
+
+- My wind experiments systematically isolated the physical aerodynamic response of fixed-wing UAVs from flight controller compensation strategies. By forcing the UAV into heading hold mode (rather than the default ground course hold), I separated weathervaning—the passive aerodynamic tendency of the vertical stabilizer to align with relative wind—from crabbing, the active flight controller strategy of pointing the nose into the wind to maintain ground track.
+
+- In this experiment, given 15 m/s eastward wind gusts (10-second intervals), I observed distinct yaw oscillations as the UAV's rudder fought to maintain heading against weathervaning forces. Roll angle patterns revealed controller overshoot: initial positive roll (right wing down) when wind hit, forced leveling during the gust, then negative roll (left wing down) as the controller overcompensated when wind ceased.
+
+- My theoretical analysis distinguished three flight conditions: crabbing (coordinated flight with nose into wind, zero sideslip, on-track), drifting (heading hold with downwind ground track displacement), and sideslipping (cross-controlled descent maneuver). In the research summary, I discuss why course-hold mode requires banking: fixed-wing aircraft must perform coordinated turns to change heading, as rudder-only yaw creates inefficient sideslip.
+
+These experiments establish foundational knowledge for developing GPS spoofing detection algorithms that can distinguish between legitimate wind-induced drift and malicious GPS manipulation by analyzing the correlation between attitude changes, ground track deviations, and EKF wind estimates.
+
+
+## Adversarial Class
 
 It is interesting to study the set of parameters of the GPS-receiver pipeline that an adversary can control. A full study of adversary capacity and a corresponding cost-benefit analysis for counter strategies is fundamental to strengthening strategies to monitor, detect, and counteract spoofing attacks. To that end, our current aim is to develop a general adversary class and integrate the adversary into our flight simulation. 
 
